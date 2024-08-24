@@ -9,14 +9,13 @@
     <label for="recipe_name">Nombre de la Receta:</label>
     <input type="text" id="recipe_name" name="recipe_name" required>
 
-
     <h2>Productos</h2>
     <div id="products">
         <div class="product">
             <label for="product_name_0">Nombre:</label>
             <input type="text" id="product_name_0" name="products[0][name]" required>
             <label for="product_quantity_0">Cantidad:</label>
-            <input type="number" id="product_quantity_0" name="products[0][quantity]" required>
+            <input type="number" id="product_quantity_0" name="products[0][quantity]" required min="1">
             <label for="product_brand_0">Marca:</label>
             <input type="text" id="product_brand_0" name="products[0][brand]" required>
         </div>
@@ -29,14 +28,12 @@
             <label for="part_name_0">Nombre:</label>
             <input type="text" id="part_name_0" name="parts[0][name]" required>
             <label for="part_quantity_0">Cantidad:</label>
-            <input type="number" id="part_quantity_0" name="parts[0][quantity]" required>
+            <input type="number" id="part_quantity_0" name="parts[0][quantity]" required min="1">
             <label for="part_brand_0">Marca:</label>
             <input type="text" id="part_brand_0" name="parts[0][brand]" required>
         </div>
     </div>
     <button type="button" id="add-part">Agregar Pieza</button>
-
-    
 
     <button type="submit">Crear Receta</button>
 </form>
@@ -54,8 +51,7 @@
             <label for="part_quantity_${partIndex}">Cantidad:</label>
             <input type="number" id="part_quantity_${partIndex}" name="parts[${partIndex}][quantity]" required>
             <label for="part_brand_${partIndex}">Marca:</label>
-            <input type="text" id="part_brand_${partIndex}" name="parts[${partIndex}][brand]" required>
-        `;
+            <input type="text" id="part_brand_${partIndex}" name="parts[${partIndex}][brand]" required>`;
         document.getElementById('parts').appendChild(partDiv);
         partIndex++;
     });

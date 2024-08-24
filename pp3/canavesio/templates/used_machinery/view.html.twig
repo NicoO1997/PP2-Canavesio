@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}View Used Machineries{% endblock %}
+
+{% block body %}
+<h1>Used Machineries</h1>
+
+{% if usedMachineries is empty %}
+    <p>No used machineries found.</p>
+{% endif %}
+
+{% if usedMachineries is not empty %}
+    <table>
+        <thead>
+            <tr>
+                <th>Machinery Name</th>
+                <th>Brand</th>
+                <th>Age</th>
+                <th>Months</th>
+                <th>Hours of Use</th>
+                <th>Last Service</th>
+                <th>Price</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for machinery in usedMachineries %}
+            <tr>
+                <td>{{ machinery.machineryName }}</td>
+                <td>{{ machinery.brand }}</td>
+                <td>
+                    {{ machinery.yearsOld }} year{% if machinery.yearsOld != 1 %}s{% endif %}
+                </td>
+                <td>
+                    {% if machinery.months > 0 %}
+                        {{ machinery.months }} month{% if machinery.months != 1 %}s{% endif %}
+                    {% else %}
+                         0 months
+                    {% endif %}
+                </td>
+</td>
+                <td>{{ machinery.hoursOfUse }}</td>
+                <td>{{ machinery.lastService|date('Y-m-d') }}</td>
+                <td>{{ machinery.price ? machinery.price|number_format(2, '.', ',') : 'N/A' }}</td>
+                <td>
+                    {% if machinery.imageFilename %}
+                        <img src="{{ asset('images/' ~ machinery.imageFilename) }}" alt="{{ machinery.machineryName }}" width="100">
+                    {% else %}
+                        No image
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+{% endblock %}

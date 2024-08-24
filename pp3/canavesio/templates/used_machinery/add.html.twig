@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Used Machinery{% endblock %}
+
+{% block body %}
+<h1>Add Used Machinery</h1>
+
+{# Mensajes Flash #}
+{% for label, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<form method="post" action="{{ path('app_add_used_machinery') }}" enctype="multipart/form-data">
+    <label for="machinery_name">Machinery Name:</label>
+    <input type="text" id="machinery_name" name="machinery_name" required>
+
+    <label for="brand">Brand:</label>
+    <input type="text" id="brand" name="brand" required>
+
+    <label for="years_old">Years Old:</label>
+    <input type="number" id="years_old" name="years_old" required min="0">
+
+    <label for="months">Months:</label>
+    <input type="number" id="months" name="months" required min="0" max="11">
+
+    <label for="hours_of_use">Hours of Use:</label>
+    <input type="number" id="hours_of_use" name="hours_of_use" required min="0">
+
+    <label for="last_service">Last Service:</label>
+    <input type="date" id="last_service" name="last_service" required>
+
+    <label for="price">Price in USD:</label>
+    <input type="number" id="price" name="price" step="0.01" min="0">
+
+    <label for="image">Image:</label>
+    <input type="file" id="image" name="image" accept="image/*" required>
+
+    <button type="submit">Add Machinery</button>
+</form>
+{% endblock %}

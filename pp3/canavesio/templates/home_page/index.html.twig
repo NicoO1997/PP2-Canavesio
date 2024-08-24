@@ -1,3 +1,5 @@
+{# templates/home_page/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello HomePageController!{% endblock %}
@@ -21,10 +23,21 @@
     </p>
     <p>
         <a href="{{ path('cart_view') }}">Go to Cart</a>
-    
-</p>
+    </p>
     <p>
         <a href="{{ path('favorite_list') }}">Go to Favorites</a>
     </p>
+
+    <section id="add-used-machinery-button">
+        <a href="{{ path('app_add_used_machinery_page') }}" class="btn btn-primary">Go to Add Used Machinery</a>
+    </section>
+
+    <section id="view-used-machineries-button">
+        <a href="{{ path('app_view_used_machinery') }}" class="btn btn-primary">View Used Machineries</a>
+    </section>
+
+    <section id="admin-view-used-machineries-button">
+        <a href="{{ path('admin_view_used_machinery') }}" class="btn btn-primary">Admin View Used Machineries</a>
+    </section>
 </div> 
 {% endblock %}

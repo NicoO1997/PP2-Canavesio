@@ -11,21 +11,17 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomePageController extends AbstractController
+class UsedMachineryController extends AbstractController
 {
-    #[Route('/', name: 'app_home_page')]
-    public function index(): Response
+    #[Route('/view-used-machinery', name: 'app_view_used_machinery')]
+    public function viewUsedMachinery(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('home_page/index.html.twig', [
-            'controller_name' => 'HomePageController',
-        ]);
-    }
+        // Obtenemos todas las maquinarias usadas desde la base de datos
+        $usedMachineries = $entityManager->getRepository(UsedMachinery::class)->findAll();
 
-    #[Route('/home/page', name: 'app_home_page_alt')]
-    public function indexAlt(): Response
-    {
-        return $this->render('home_page/index.html.twig', [
-            'controller_name' => 'HomePageController',
+        // Renderizamos la vista pasando los datos de las maquinarias
+        return $this->render('used_machinery/view.html.twig', [
+            'usedMachineries' => $usedMachineries,
         ]);
     }
 
@@ -41,12 +37,13 @@ class HomePageController extends AbstractController
         $machineryName = $request->request->get('machinery_name');
         $brand = $request->request->get('brand');
         $yearsOld = $request->request->get('years_old');
+        $months = $request->request->get('months');  
         $hoursOfUse = $request->request->get('hours_of_use');
         $lastService = $request->request->get('last_service');
         $price = $request->request->get('price');
 
         // Validaciones para campos obligatorios
-        if (empty($machineryName) || empty($brand) || empty($yearsOld) || empty($hoursOfUse) || empty($lastService)) {
+        if (empty($machineryName) || empty($brand) || empty($yearsOld) || empty($months) || empty($hoursOfUse) || empty($lastService)) {
             $this->addFlash('error', 'Error: Todos los campos obligatorios deben estar completos.');
             return $this->redirectToRoute('app_add_used_machinery_page');
         }
@@ -90,8 +87,9 @@ class HomePageController extends AbstractController
         $usedMachinery->setMachineryName($machineryName);
         $usedMachinery->setBrand($brand);
         $usedMachinery->setYearsOld((int)$yearsOld);
+        $usedMachinery->setMonths((int)$months);  // Asignar los meses
         $usedMachinery->setHoursOfUse((int)$hoursOfUse);
-        $usedMachinery->setLastService(new \DateTime($lastService)); // Asegúrate de que el formato de fecha es correcto
+        $usedMachinery->setLastService(new \DateTime($lastService)); 
         $usedMachinery->setPrice($price);
         $usedMachinery->setImageFilename($newFilename);
 
@@ -100,18 +98,8 @@ class HomePageController extends AbstractController
         $entityManager->flush();
 
         // Mensaje de éxito y redirección
-        $this->addFlash('success', "Maquinaria usada añadida con éxito: $machineryName, $brand, $yearsOld años, $hoursOfUse horas, último servicio en $lastService, precio \$" . ($price !== null ? $price : 'no especificado') . ". Imagen: $newFilename.");
+        $this->addFlash('success', "Maquinaria usada añadida con éxito.");
 
         return $this->redirectToRoute('app_add_used_machinery_page');
-    }
-
-    #[Route('/view-used-machinery', name: 'app_view_used_machinery')]
-    public function viewUsedMachinery(EntityManagerInterface $entityManager): Response
-    {
-        $usedMachineries = $entityManager->getRepository(UsedMachinery::class)->findAll();
-
-        return $this->render('used_machinery/view.html.twig', [
-            'usedMachineries' => $usedMachineries,
-        ]);
     }
 }

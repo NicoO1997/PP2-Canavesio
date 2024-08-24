@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - View Used Machineries{% endblock %}
+
+{% block body %}
+<h1>Admin - Used Machineries</h1>
+
+{% if usedMachineries is empty %}
+    <p>Here you can see a list of all the used machineries, edit or delete them.</p>
+{% endif %}
+
+<p><a href="{{ path('app_home_page') }}">Back to Home</a></p>
+
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{% if usedMachineries is not empty %}
+    <table>
+        <thead>
+            <tr>
+                <th>Machinery Name</th>
+                <th>Brand</th>
+                <th>Years Old</th>
+                <th>Months</th>
+                <th>Hours of Use</th>
+                <th>Last Service</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for machinery in usedMachineries %}
+            <tr>
+                <td><input type="text" name="machineries[{{ machinery.id }}][machineryName]" value="{{ machinery.machineryName }}"></td>
+                <td><input type="text" name="machineries[{{ machinery.id }}][brand]" value="{{ machinery.brand }}"></td>
+                <td><input type="number" name="machineries[{{ machinery.id }}][yearsOld]" value="{{ machinery.yearsOld }}"></td>
+                <td><input type="number" name="machineries[{{ machinery.id }}][months]" value="{{ machinery.months }}" min="0" max="11"></td>
+                <td><input type="number" name="machineries[{{ machinery.id }}][hoursOfUse]" value="{{ machinery.hoursOfUse }}"></td>
+                <td><input type="date" name="machineries[{{ machinery.id }}][lastService]" value="{{ machinery.lastService|date('Y-m-d') }}"></td>
+                <td><input type="number" name="machineries[{{ machinery.id }}][price]" value="{{ machinery.price ? machinery.price|number_format(2, '.', ',') : '' }}"></td>
+                <td>
+                    {% if machinery.imageFilename %}
+                        <img src="{{ asset('images/' ~ machinery.imageFilename) }}" alt="{{ machinery.machineryName }}" width="100">
+                        <input type="file" name="machineries[{{ machinery.id }}][image]" accept="image/*">
+                    {% else %}
+                        No image
+                    {% endif %}
+                </td>
+                <td>
+                    <button type="submit" name="machineryId" value="{{ machinery.id }}">Save</button>
+                    <a href="{{ path('admin_delete_used_machinery', {'id': machinery.id}) }}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No used machineries found.</p>
+{% endif %}
+{% endblock %}

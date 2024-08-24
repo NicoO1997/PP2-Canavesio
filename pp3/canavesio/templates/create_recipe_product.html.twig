@@ -17,7 +17,7 @@
             <label for="part_name_0">Nombre:</label>
             <input type="text" id="part_name_0" name="parts[0][name]">
             <label for="part_quantity_0">Cantidad:</label>
-            <input type="number" id="part_quantity_0" name="parts[0][quantity]">
+            <input type="number" id="part_quantity_0" name="parts[0][quantity]" min="1">
             <label for="part_brand_0">Marca:</label>
             <input type="text" id="part_brand_0" name="parts[0][brand]">
         </div>
@@ -38,10 +38,9 @@
             <label for="part_name_${partIndex}">Nombre:</label>
             <input type="text" id="part_name_${partIndex}" name="parts[${partIndex}][name]">
             <label for="part_quantity_${partIndex}">Cantidad:</label>
-            <input type="number" id="part_quantity_${partIndex}" name="parts[${partIndex}][quantity]">
+            <input type="number" id="part_quantity_${partIndex}" name="parts[${partIndex}][quantity]" min="1">
             <label for="part_brand_${partIndex}">Marca:</label>
-            <input type="text" id="part_brand_${partIndex}" name="parts[${partIndex}][brand]">
-        `;
+            <input type="text" id="part_brand_${partIndex}" name="parts[${partIndex}][brand]">`;
         document.getElementById('parts').appendChild(partDiv);
         partIndex++;
     });
